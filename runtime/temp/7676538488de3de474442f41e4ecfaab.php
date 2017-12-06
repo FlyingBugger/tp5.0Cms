@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:82:"C:\Users\flyingBugger\Desktop\ar\cms/application/admin\view\index\addclassify.html";i:1505897260;s:77:"C:\Users\flyingBugger\Desktop\ar\cms/application/admin\view\index\header.html";i:1512526280;s:78:"C:\Users\flyingBugger\Desktop\ar\cms/application/admin\view\index\sidebar.html";i:1493449308;s:77:"C:\Users\flyingBugger\Desktop\ar\cms/application/admin\view\index\footer.html";i:1504339462;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:74:"C:\Users\flyingBugger\Desktop\ar\cms/application/admin\view\index\web.html";i:1508919636;s:77:"C:\Users\flyingBugger\Desktop\ar\cms/application/admin\view\index\header.html";i:1512526280;s:78:"C:\Users\flyingBugger\Desktop\ar\cms/application/admin\view\index\sidebar.html";i:1493449308;s:77:"C:\Users\flyingBugger\Desktop\ar\cms/application/admin\view\index\footer.html";i:1504339462;}*/ ?>
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
@@ -320,38 +320,215 @@
 </div>
         <div class="col-xs-12 col-sm-9 col-md-10 pull-right" style="background-color:#FFFFFF;">
 
+<link href="<?php echo $domain; ?>public/common/uploadify/uploadify.css" type="text/css" rel="stylesheet">
 <div class="row bg-info text-center">
-    <h4><?php echo lang('Add category'); ?></h4>
+    <h4><?php echo lang('Website information'); ?></h4>
 </div><br>
 <div class="container-fluid" style="min-height: 800px;">
     <div class="row">
         <form method="post" action="">
-            <h4><?php echo lang('With'); ?>&nbsp;<b><span class="text-danger">*</span></b>&nbsp;<?php echo lang('are required'); ?></h4>
             <div class="form-group">
-                <label><?php echo lang('Category Name'); ?>：&nbsp;<b><span class="text-danger">*</span></b></label>
-                <input type="text" class="form-control" name="fenleim" placeholder="<?php echo lang('Category name'); ?>" required autofocus>
+                <label><?php echo lang('Site title'); ?>：</label>
+                <input type="text" class="form-control" name="title" value="<?php echo $data['title']; ?>" placeholder="<?php echo lang('Site title'); ?>">
             </div>
             <div class="form-group">
-                <label><?php echo lang('Category parent'); ?>：&nbsp;<b><span class="text-danger">*</span></b></label>
-                <select class="form-control" name="shangji">
-                    <option value="0"><?php echo lang('As the first level category'); ?></option>
-                    <?php if(is_array($fenlei) || $fenlei instanceof \think\Collection): $i = 0; $__LIST__ = $fenlei;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?>
-                    <option value="<?php echo $vo['id']; ?>"<?php if($fufenlei == $vo['id']): ?> selected<?php endif; ?>><?php echo $vo['level']; if($vo['level'] != ''): ?>└&nbsp;<?php endif; ?><?php echo $vo['term_name']; ?></option>
+                <label><?php echo lang('Subtitle'); ?>：</label>
+                <input type="text" class="form-control" name="subtitle" value="<?php echo $data['subtitle']; ?>" placeholder="<?php echo lang('Subtitle'); ?>">
+            </div>
+            <div class="form-group">
+                <label><?php echo lang('Site domain name'); ?>：</label>
+                <input type="text" class="form-control" name="domain" value="<?php echo $data['domain']; ?>">
+                <p class="help-block"><?php echo lang('The domain name ends with "/".'); ?></p>
+            </div>
+            <div class="form-group">
+                <label><?php echo lang('Site keywords'); ?>：</label>
+                <input type="text" class="form-control" name="keyword" value="<?php echo $data['keyword']; ?>">
+            </div>
+            <div class="form-group">
+                <label><?php echo lang('Site description'); ?>：</label>
+                <textarea class="form-control" name="description" rows="3"><?php echo $data['description']; ?></textarea>
+            </div>
+            <div class="form-group">
+                <label><?php echo lang('Webmaster E-mail'); ?>：</label>
+                <input type="email" class="form-control" name="email" value="<?php echo $data['email']; ?>" placeholder="<?php echo lang('Webmaster E-mail'); ?>">
+            </div>
+            <div class="form-group">
+                <label><?php echo lang('Template program'); ?>：</label>
+                <select class="form-control" name="template">
+                    <?php if(is_array($dir) || $dir instanceof \think\Collection): $i = 0; $__LIST__ = $dir;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?>
+                    <option value="<?php echo $vo; ?>"<?php if($vo == $data['template']): ?> selected<?php endif; ?>><?php echo $vo; ?></option>
                     <?php endforeach; endif; else: echo "" ;endif; ?>
                 </select>
             </div>
             <div class="form-group">
-                <label><?php echo lang('Category description'); ?></label>
-                <textarea class="form-control" rows="3" name="miaoshu"></textarea>
+                <label><?php echo lang('Review whether the audit'); ?>：</label>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" name="pinglun"<?php if($data['comment'] == 1): ?> checked<?php endif; ?>> <?php echo lang('Comments need to be audited'); ?>
+                    </label>
+                </div>
             </div>
-            <hr>
+            <div class="form-group">
+                <label><?php echo lang('User name filtering'); ?>：</label>
+                <input type="text" class="form-control" name="guolv" value="<?php echo $data['filter']; ?>">
+                <p class="help-block"><?php echo lang('You can set the user names that are not allowed to be registered, separated by a comma ","'); ?></p>
+            </div>
+            <div class="form-group">
+                <label><?php echo lang('The number of records displayed per page'); ?>：</label>
+                <input type="number" class="form-control" name="everyPageShows" value="<?php if(!(empty($data['everyPageShows']) || ($data['everyPageShows'] instanceof \think\Collection && $data['everyPageShows']->isEmpty()))): ?><?php echo $data['everyPageShows']; else: ?>10<?php endif; ?>">
+                <p class="help-block"><?php echo lang('You can set the number of displays in the category page'); ?></p>
+            </div>
+            <div class="form-group">
+                <label><?php echo lang('Slide size'); ?>：</label>
+                <div class="row">
+                    <div class="col-md-1"><h5 class="text-center"><?php echo lang('Width'); ?></h5></div>
+                    <div class="col-md-5">
+                        <input type="text" class="form-control" name="kuan" value="<?php echo $data['slideshowWidth']; ?>">
+                    </div>
+                    <div class="col-md-1"><h5 class="text-center"><?php echo lang('Height'); ?></h5></div>
+                    <div class="col-md-5">
+                        <input type="text" class="form-control" name="gao" value="<?php echo $data['slideshowHeight']; ?>">
+                    </div>
+                </div>
+                <p class="help-block"><?php echo lang('The units are pixels'); ?></p>
+            </div>
+            <div class="form-group">
+                <label><?php echo lang('Whether to close the slide'); ?>：</label>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" name="closeSlide"<?php if(!(empty($data['closeSlide']) || ($data['closeSlide'] instanceof \think\Collection && $data['closeSlide']->isEmpty()))): if($data['closeSlide'] == 1): ?> checked<?php endif; endif; ?>> <?php echo lang('Close the slide'); ?>
+                    </label>
+                </div>
+                <p class="help-block"><?php echo lang('Shutting down slides requires theme support'); ?></p>
+            </div>
+            <div class="form-group">
+                <label><?php echo lang('Whether to close the message'); ?>：</label>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" name="openMessage"<?php if($data['openMessage'] == 0): ?> checked<?php endif; ?>> <?php echo lang('Close the message'); ?>
+                    </label>
+                </div>
+                <p class="help-block"><?php echo lang('Close message requires subject support'); ?></p>
+            </div>
+            <div class="form-group">
+                <label><?php echo lang('Whether to close the comment'); ?>：</label>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" name="closeComment"<?php if(!(empty($data['closeComment']) || ($data['closeComment'] instanceof \think\Collection && $data['closeComment']->isEmpty()))): if($data['closeComment'] == 1): ?> checked<?php endif; endif; ?>> <?php echo lang('Close the comment'); ?>
+                    </label>
+                </div>
+                <p class="help-block"><?php echo lang('After closing the comment, setting a comment when writing an article will be invalidated'); ?></p>
+            </div>
+            <div class="form-group">
+                <label><?php echo lang('Whether to allow registration'); ?>：</label>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" name="notAllowLogin"<?php if(!(empty($data['notAllowLogin']) || ($data['notAllowLogin'] instanceof \think\Collection && $data['notAllowLogin']->isEmpty()))): if($data['notAllowLogin'] == 1): ?> checked<?php endif; endif; ?>> <?php echo lang('Registrations are not allowed'); ?>
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label><?php echo lang('Login requires a verification code?'); ?>：</label>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" name="yanzheng"<?php if($data['captcha'] == 1): ?> checked<?php endif; ?>> <?php echo lang('Login requires a verification code'); ?>
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label><?php echo lang('Whether to close the big image generation'); ?>：</label>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" name="datu"<?php if(!(empty($data['datu']) || ($data['datu'] instanceof \think\Collection && $data['datu']->isEmpty()))): if($data['datu'] == 1): ?> checked<?php endif; endif; ?>> <?php echo lang('Close Generate large images'); ?>
+                    </label>
+                </div>
+                <p class="help-block"><?php echo lang('Turning off big-picture generation saves space, but it can make large-picture effects for some topics unavailable'); ?></p>
+            </div>
+            <div class="form-group">
+                <label><?php echo lang('Whether to enable short address mode'); ?>：</label>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" name="rewrite"<?php if(!(empty($data['rewrite']) || ($data['rewrite'] instanceof \think\Collection && $data['rewrite']->isEmpty()))): if($data['rewrite'] == 1): ?> checked<?php endif; endif; ?>> <?php echo lang('Enable short addresses'); ?>
+                    </label>
+                </div>
+                <p class="help-block"><?php echo lang('Enable short address need to open rewrite, check before you make sure your web environment to run a rewrite'); ?></p>
+            </div>
+            <div class="form-group">
+                <label><?php echo lang('Whether to close the site map'); ?>：</label>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" name="closeSitemap"<?php if(!(empty($data['closeSitemap']) || ($data['closeSitemap'] instanceof \think\Collection && $data['closeSitemap']->isEmpty()))): if($data['closeSitemap'] == 1): ?> checked<?php endif; endif; ?>> <?php echo lang('Close the site map'); ?>
+                    </label>
+                </div>
+                <p class="help-block"><?php echo lang('The site map is turned on by default, where you can turn off the site map'); ?></p>
+            </div>
+            <div class="form-group">
+                <label><?php echo lang('Whether to close RSS'); ?>：</label>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" name="closeRSS"<?php if(!(empty($data['closeRSS']) || ($data['closeRSS'] instanceof \think\Collection && $data['closeRSS']->isEmpty()))): if($data['closeRSS'] == 1): ?> checked<?php endif; endif; ?>> <?php echo lang('Close RSS'); ?>
+                    </label>
+                </div>
+                <p class="help-block"><?php echo lang('The default is to open RSS, where you can turn off RSS'); ?></p>
+            </div>
+            <div class="form-group">
+                <label><?php echo lang('Whether to close the site'); ?>：</label>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" name="guanbi"<?php if(!(empty($data['guanbi']) || ($data['guanbi'] instanceof \think\Collection && $data['guanbi']->isEmpty()))): if($data['guanbi'] == 1): ?> checked<?php endif; endif; ?>> <?php echo lang('Close the site'); ?>
+                    </label>
+                </div>
+                <p class="help-block"><?php echo lang('When you need website maintenance, you can use to close the site'); ?></p>
+            </div>
+            <div class="form-group">
+                <label><?php echo lang('Site logo'); ?>：</label>
+                <div id="upload"></div>
+                <div style="width: 200px;">
+                    <img src="<?php echo $domain; ?>public/common/images/default-thumbnail.png" class="img-thumbnail img-responsive" id="tubiaoImg">
+                </div>
+                <input type="hidden" value="<?php echo $data['logo']; ?>" name="tubiao" id="tubiao">
+            </div>
+            <div class="form-group">
+                <label><?php echo lang('Website icon'); ?>：</label>
+                <div id="upload_ico"></div>
+                <div style="width: 200px;">
+                    <img src="<?php echo $domain; ?>public/common/images/favicon.ico" class="img-thumbnail img-responsive" id="icotubiaoIco">
+                </div>
+                <input type="hidden" value="<?php if(!(empty($data['ico']) || ($data['ico'] instanceof \think\Collection && $data['ico']->isEmpty()))): ?><?php echo $data['ico']; endif; ?>" name="ico" id="icotubiao">
+                <p class="help-block"><?php echo lang('Please upload the "ico" icon file'); ?></p>
+            </div>
+            <div class="form-group">
+                <label><?php echo lang('Set the time format'); ?>：</label>
+                <select class="form-control" name="timeFormat">
+                    <?php if(is_array($timeFormat) || $timeFormat instanceof \think\Collection): $i = 0; $__LIST__ = $timeFormat;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?>
+                    <option value="<?php echo $vo['val']; ?>"<?php if(!(empty($data['timeFormat']) || ($data['timeFormat'] instanceof \think\Collection && $data['timeFormat']->isEmpty()))): if($vo['val'] == $data['timeFormat']): ?> selected<?php endif; endif; ?>><?php echo $vo['show']; ?></option>
+                    <?php endforeach; endif; else: echo "" ;endif; ?>
+                </select>
+            </div>
+            <div class="form-group<?php if($lang != 'zh-cn'): ?> hidden<?php endif; ?>">
+                <label><?php echo lang('Archival information'); ?>：</label>
+                <input type="text" class="form-control" name="record" value="<?php echo $data['record']; ?>">
+            </div>
+            <div class="form-group">
+                <label><?php echo lang('Copyright Information'); ?>：</label>
+                <textarea class="form-control" name="copyright" rows="3"><?php echo $data['copyright']; ?></textarea>
+            </div>
+            <div class="form-group">
+                <label><?php echo lang('Statistical code'); ?>：</label>
+                <textarea class="form-control" name="statistics" rows="3"><?php echo $data['statistics']; ?></textarea>
+            </div>
             <div class="text-center">
                 <input type="hidden" name="verification" value="<?php echo $verification; ?>">
-                <button type="submit" class="btn btn-default"><?php echo lang('Add category'); ?><span class="hidden">&nbsp;<img src="<?php echo $domain; ?>public/common/images/zhixing.gif" width="16" height="16"></span></button>
+                <button type="submit" class="btn btn-default"><?php echo lang('Save'); ?><span class="hidden">&nbsp;<img src="<?php echo $domain; ?>public/common/images/zhixing.gif" width="16" height="16"></span></button>
             </div>
         </form>
     </div>
-</div>
+</div><br><br>
+<div class="hidden" id="webroot"><?php echo $domain; ?></div>
+<div class="hidden" id="buttonText"><?php echo lang('Select Image'); ?></div>
+<div class="hidden" id="icobuttonText"><?php echo lang('Select the icon'); ?></div>
+<script type="text/javascript" src="<?php echo $domain; ?>public/common/uploadify/jquery.uploadify.js"></script>
+<script src="<?php echo $domain; ?>public/common/js/web.js"></script>
         <div class="pull-right"><?php echo $catfish; ?></div>
         </div>
     </div>

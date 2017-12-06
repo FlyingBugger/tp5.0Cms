@@ -15,30 +15,7 @@ class Common extends Package
     protected $siteType = 'open';
     protected function baseCamp($req = [])
     {
-        if(!empty($req) && is_array($req))
-        {
-            $restr = '';
-            foreach($req as $key => $val)
-            {
-                if($restr == '')
-                {
-                    $restr = $key.'='.$val;
-                }
-                else
-                {
-                    $restr .= '&'.$key.'='.$val;
-                }
-            }
-            $url = 'http://www.catfish-cms.com/upgrade.html?'.$restr;
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-            curl_setopt($ch, CURLOPT_HEADER, 0);
-            curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 2.0.50727;http://www.baidu.com)');
-            curl_setopt($ch , CURLOPT_URL , $url);
-            $res = curl_exec($ch);
-            curl_close($ch);
-            return $res;
-        }
+      
         return false;
     }
     protected function turnon(&$summary,&$content)

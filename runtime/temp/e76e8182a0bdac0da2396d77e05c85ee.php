@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:76:"C:\Users\flyingBugger\Desktop\ar\cms/application/admin\view\index\write.html";i:1508550316;s:77:"C:\Users\flyingBugger\Desktop\ar\cms/application/admin\view\index\header.html";i:1506934118;s:78:"C:\Users\flyingBugger\Desktop\ar\cms/application/admin\view\index\sidebar.html";i:1493449308;s:77:"C:\Users\flyingBugger\Desktop\ar\cms/application/admin\view\index\footer.html";i:1504339462;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:76:"C:\Users\flyingBugger\Desktop\ar\cms/application/admin\view\index\write.html";i:1508550316;s:77:"C:\Users\flyingBugger\Desktop\ar\cms/application/admin\view\index\header.html";i:1512526280;s:78:"C:\Users\flyingBugger\Desktop\ar\cms/application/admin\view\index\sidebar.html";i:1493449308;s:77:"C:\Users\flyingBugger\Desktop\ar\cms/application/admin\view\index\footer.html";i:1504339462;}*/ ?>
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="copyright" content="Catfish CMS All Rights Reserved">
     <meta name="robots" content="noindex,noarchive">
-    <title><?php echo lang('Catfish CMS Backstage'); ?></title>
+    <title>后台管理系统</title>
     <link rel="icon" href="<?php echo $domain; ?>public/common/images/favicon.ico">
     <link rel="stylesheet" href="<?php echo $domain; ?>public/common/css/bootstrap.min.css">
     <script src="<?php echo $domain; ?>public/common/js/jquery.min.js"></script>
@@ -27,7 +27,7 @@
                 <a class="navbar-brand" href="<?php echo Url('/admin'); ?>">
                     <img alt="<?php echo lang('Catfish Management Center'); ?>" src="<?php echo $domain; ?>public/common/images/catfish_white.png" width="20" height="20">
                 </a>
-                <a class="navbar-brand" href="<?php echo Url('/admin'); ?>"><?php echo lang('Catfish Management Center'); ?></a>
+                <a class="navbar-brand" href="<?php echo Url('/admin'); ?>">管理中心</a>
             </div>
             <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
@@ -319,6 +319,7 @@
     </div>
 </div>
         <div class="col-xs-12 col-sm-9 col-md-10 pull-right" style="background-color:#FFFFFF;">
+
 <?php if(!(empty($editor_css) || ($editor_css instanceof \think\Collection && $editor_css->isEmpty()))): ?>
 <?php echo $editor_css; else: ?>
 <link href="<?php echo $domain; ?>public/common/umeditor/themes/default/css/umeditor.min.css" type="text/css" rel="stylesheet">

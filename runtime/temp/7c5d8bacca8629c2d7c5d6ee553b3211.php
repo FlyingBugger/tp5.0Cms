@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:82:"C:\Users\flyingBugger\Desktop\ar\cms/application/admin\view\index\addclassify.html";i:1505897260;s:77:"C:\Users\flyingBugger\Desktop\ar\cms/application/admin\view\index\header.html";i:1512526280;s:78:"C:\Users\flyingBugger\Desktop\ar\cms/application/admin\view\index\sidebar.html";i:1493449308;s:77:"C:\Users\flyingBugger\Desktop\ar\cms/application/admin\view\index\footer.html";i:1504339462;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:79:"C:\Users\flyingBugger\Desktop\ar\cms/application/admin\view\index\classify.html";i:1505956996;s:77:"C:\Users\flyingBugger\Desktop\ar\cms/application/admin\view\index\header.html";i:1512526280;s:78:"C:\Users\flyingBugger\Desktop\ar\cms/application/admin\view\index\sidebar.html";i:1493449308;s:77:"C:\Users\flyingBugger\Desktop\ar\cms/application/admin\view\index\footer.html";i:1504339462;}*/ ?>
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
@@ -320,38 +320,49 @@
 </div>
         <div class="col-xs-12 col-sm-9 col-md-10 pull-right" style="background-color:#FFFFFF;">
 
+<link href="<?php echo $domain; ?>public/common/confirm/jquery-confirm.css" type="text/css" rel="stylesheet">
 <div class="row bg-info text-center">
-    <h4><?php echo lang('Add category'); ?></h4>
+    <h4><?php echo lang('All categories'); ?></h4>
 </div><br>
 <div class="container-fluid" style="min-height: 800px;">
     <div class="row">
-        <form method="post" action="">
-            <h4><?php echo lang('With'); ?>&nbsp;<b><span class="text-danger">*</span></b>&nbsp;<?php echo lang('are required'); ?></h4>
-            <div class="form-group">
-                <label><?php echo lang('Category Name'); ?>：&nbsp;<b><span class="text-danger">*</span></b></label>
-                <input type="text" class="form-control" name="fenleim" placeholder="<?php echo lang('Category name'); ?>" required autofocus>
-            </div>
-            <div class="form-group">
-                <label><?php echo lang('Category parent'); ?>：&nbsp;<b><span class="text-danger">*</span></b></label>
-                <select class="form-control" name="shangji">
-                    <option value="0"><?php echo lang('As the first level category'); ?></option>
-                    <?php if(is_array($fenlei) || $fenlei instanceof \think\Collection): $i = 0; $__LIST__ = $fenlei;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?>
-                    <option value="<?php echo $vo['id']; ?>"<?php if($fufenlei == $vo['id']): ?> selected<?php endif; ?>><?php echo $vo['level']; if($vo['level'] != ''): ?>└&nbsp;<?php endif; ?><?php echo $vo['term_name']; ?></option>
-                    <?php endforeach; endif; else: echo "" ;endif; ?>
-                </select>
-            </div>
-            <div class="form-group">
-                <label><?php echo lang('Category description'); ?></label>
-                <textarea class="form-control" rows="3" name="miaoshu"></textarea>
-            </div>
-            <hr>
-            <div class="text-center">
-                <input type="hidden" name="verification" value="<?php echo $verification; ?>">
-                <button type="submit" class="btn btn-default"><?php echo lang('Add category'); ?><span class="hidden">&nbsp;<img src="<?php echo $domain; ?>public/common/images/zhixing.gif" width="16" height="16"></span></button>
-            </div>
-        </form>
+        <h4><?php echo lang('The category that exists'); ?>&nbsp;<small>[<a href="<?php echo Url('/admin/Index/addclassify'); ?>"><?php echo lang('Add a new category'); ?></a>]</small></h4>
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th><?php echo lang('Category name'); ?></th>
+                    <th><?php echo lang('Category description'); ?></th>
+                    <th><?php echo lang('Operation'); ?></th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php if(is_array($data) || $data instanceof \think\Collection): $i = 0; $__LIST__ = $data;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?>
+                <tr>
+                    <td><?php echo $vo['id']; ?></td>
+                    <td><?php echo $vo['level']; if($vo['level'] != ''): ?>└&nbsp;<?php endif; ?><?php echo $vo['term_name']; ?></td>
+                    <td><?php echo $vo['description']; ?></td>
+                    <td>
+                        <a href="<?php echo Url('addclassify'); ?>?c=<?php echo $vo['id']; ?>"><?php echo lang('Add subcategories'); ?></a>
+                        &nbsp;|&nbsp;
+                        <a href="<?php echo Url('modifyclassify'); ?>?c=<?php echo $vo['id']; ?>"><?php echo lang('Edit'); ?></a>
+                        &nbsp;|&nbsp;
+                        <a class="twitter" data-title="<?php echo lang('Confirm to delete?'); ?>" href="<?php echo Url('classify'); ?>?d=<?php echo $vo['id']; ?>&f=<?php echo $vo['parent_id']; ?>&verification=<?php echo $verification; ?>"><?php echo lang('Delete'); ?></a>
+                    </td>
+                </tr>
+                <?php endforeach; endif; else: echo "" ;endif; ?>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
+<div class="hidden" id="quedingshanchu"><?php echo lang('Confirm to delete?'); ?></div>
+<div class="hidden" id="bukehuifu"><?php echo lang('Are you sure you want to delete the category? Can not be restored after deletion!'); ?></div>
+<div class="hidden" id="jixu"><?php echo lang('Continue'); ?></div>
+<div class="hidden" id="quxiao"><?php echo lang('Cancel'); ?></div>
+<script src="<?php echo $domain; ?>public/common/confirm/jquery-confirm.js"></script>
+<script src="<?php echo $domain; ?>public/common/js/classify.js"></script>
         <div class="pull-right"><?php echo $catfish; ?></div>
         </div>
     </div>

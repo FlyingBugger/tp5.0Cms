@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:77:"C:\Users\flyingBugger\Desktop\ar\cms/application/../public/default/index.html";i:1490619700;s:26:"public/default/header.html";i:1490619860;s:26:"public/default/footer.html";i:1508209680;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:77:"C:\Users\flyingBugger\Desktop\ar\cms/application/../public/default/index.html";i:1490619700;s:26:"public/default/header.html";i:1512525439;s:26:"public/default/footer.html";i:1508209680;}*/ ?>
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>

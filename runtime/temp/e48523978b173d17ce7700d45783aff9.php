@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:82:"C:\Users\flyingBugger\Desktop\ar\cms/application/admin\view\index\addclassify.html";i:1505897260;s:77:"C:\Users\flyingBugger\Desktop\ar\cms/application/admin\view\index\header.html";i:1512526280;s:78:"C:\Users\flyingBugger\Desktop\ar\cms/application/admin\view\index\sidebar.html";i:1493449308;s:77:"C:\Users\flyingBugger\Desktop\ar\cms/application/admin\view\index\footer.html";i:1504339462;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:78:"C:\Users\flyingBugger\Desktop\ar\cms/application/admin\view\index\general.html";i:1505975270;s:77:"C:\Users\flyingBugger\Desktop\ar\cms/application/admin\view\index\header.html";i:1512526280;s:78:"C:\Users\flyingBugger\Desktop\ar\cms/application/admin\view\index\sidebar.html";i:1493449308;s:77:"C:\Users\flyingBugger\Desktop\ar\cms/application/admin\view\index\footer.html";i:1504339462;}*/ ?>
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
@@ -321,37 +321,71 @@
         <div class="col-xs-12 col-sm-9 col-md-10 pull-right" style="background-color:#FFFFFF;">
 
 <div class="row bg-info text-center">
-    <h4><?php echo lang('Add category'); ?></h4>
+    <h4><?php echo lang('General users'); ?></h4>
 </div><br>
 <div class="container-fluid" style="min-height: 800px;">
     <div class="row">
-        <form method="post" action="">
-            <h4><?php echo lang('With'); ?>&nbsp;<b><span class="text-danger">*</span></b>&nbsp;<?php echo lang('are required'); ?></h4>
-            <div class="form-group">
-                <label><?php echo lang('Category Name'); ?>：&nbsp;<b><span class="text-danger">*</span></b></label>
-                <input type="text" class="form-control" name="fenleim" placeholder="<?php echo lang('Category name'); ?>" required autofocus>
-            </div>
-            <div class="form-group">
-                <label><?php echo lang('Category parent'); ?>：&nbsp;<b><span class="text-danger">*</span></b></label>
-                <select class="form-control" name="shangji">
-                    <option value="0"><?php echo lang('As the first level category'); ?></option>
-                    <?php if(is_array($fenlei) || $fenlei instanceof \think\Collection): $i = 0; $__LIST__ = $fenlei;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?>
-                    <option value="<?php echo $vo['id']; ?>"<?php if($fufenlei == $vo['id']): ?> selected<?php endif; ?>><?php echo $vo['level']; if($vo['level'] != ''): ?>└&nbsp;<?php endif; ?><?php echo $vo['term_name']; ?></option>
-                    <?php endforeach; endif; else: echo "" ;endif; ?>
-                </select>
-            </div>
-            <div class="form-group">
-                <label><?php echo lang('Category description'); ?></label>
-                <textarea class="form-control" rows="3" name="miaoshu"></textarea>
-            </div>
-            <hr>
-            <div class="text-center">
-                <input type="hidden" name="verification" value="<?php echo $verification; ?>">
-                <button type="submit" class="btn btn-default"><?php echo lang('Add category'); ?><span class="hidden">&nbsp;<img src="<?php echo $domain; ?>public/common/images/zhixing.gif" width="16" height="16"></span></button>
-            </div>
-        </form>
+        <div class="well">
+            <form class="form-inline" role="form" method="get" action="searchuser">
+                <div class="form-group">
+                    <label><?php echo lang('User name or nickname'); ?>：</label>
+                    <input type="text" name="user" class="form-control" placeholder="<?php echo lang('User name or nickname'); ?>">
+                </div>
+                <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span>&nbsp;<?php echo lang('Search'); ?></button>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th><?php echo lang('User name'); ?></th>
+                    <th><?php echo lang('Nickname'); ?></th>
+                    <th><?php echo lang('Head portrait'); ?></th>
+                    <th><?php echo lang('E-mail'); ?></th>
+                    <th><?php echo lang('Registration time'); ?></th>
+                    <th><?php echo lang('Last login time'); ?></th>
+                    <th><?php echo lang('Last login IP'); ?></th>
+                    <th><?php echo lang('Status'); ?></th>
+                    <th><?php echo lang('Operation'); ?></th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php if(is_array($data) || $data instanceof \think\Collection): $i = 0; $__LIST__ = $data;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?>
+                <tr>
+                    <td><?php echo $vo['id']; ?></td>
+                    <td><?php echo $vo['user_login']; ?></td>
+                    <td><?php echo $vo['user_nicename']; ?></td>
+                    <td><?php if(!(empty($vo['avatar']) || ($vo['avatar'] instanceof \think\Collection && $vo['avatar']->isEmpty()))): ?><img src="<?php echo $vo['avatar']; ?>" width="50"><?php endif; ?></td>
+                    <td><?php echo $vo['user_email']; ?></td>
+                    <td><?php echo $vo['create_time']; ?></td>
+                    <td><?php echo $vo['last_login_time']; ?></td>
+                    <td><?php echo $vo['last_login_ip']; ?></td>
+                    <td>
+                        <?php if($vo['user_status'] == 0): ?><h5 class="text-muted"><?php echo lang('Disabled'); ?></h5>
+                        <?php elseif($vo['user_status'] == 1): ?><h5 class="text-success"><span class="glyphicon glyphicon-ok"></span> <?php echo lang('Normal'); ?></h5>
+                        <?php else: ?><h5 class="text-muted"><?php echo lang('Unverified'); ?></h5>
+                        <?php endif; ?>
+                    </td>
+                    <td>
+                        <input class="hidden" value="<?php echo $vo['user_status']; ?>">
+                        <a class="lahei<?php if($vo['user_status'] != 1): ?> hidden<?php endif; ?>" href="#!"><?php echo lang('Prohibit'); ?><span class="hidden">&nbsp;<img src="<?php echo $domain; ?>public/common/images/zhixing.gif" width="16" height="16"></span></a>
+                        <a class="qiyong<?php if($vo['user_status'] == 1): ?> hidden<?php endif; ?>" href="#!"><?php echo lang('Enabled'); ?><span class="hidden">&nbsp;<img src="<?php echo $domain; ?>public/common/images/zhixing.gif" width="16" height="16"></span></a>
+                    </td>
+                </tr>
+                <?php endforeach; endif; else: echo "" ;endif; ?>
+                </tbody>
+            </table>
+        </div>
+        <?php echo $data->render(); ?>
     </div>
 </div>
+<div class="hidden" id="jinyong"><?php echo lang('Disabled'); ?></div>
+<div class="hidden" id="zhengchang"><?php echo lang('Normal'); ?></div>
+<div class="hidden" id="verification"><?php echo $verification; ?></div>
+<script src="<?php echo $domain; ?>public/common/js/general.js"></script>
         <div class="pull-right"><?php echo $catfish; ?></div>
         </div>
     </div>

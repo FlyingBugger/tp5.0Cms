@@ -99,7 +99,7 @@ class Common extends Controller
         $this->assign('pluginslist', $pluginslist);
         $this->assign('numberOfPlugins', count($pluginslist,COUNT_NORMAL));
         $this->cocc = 'f2537c2b6878f66fc3bafbeb13cb8932';
-        $this->ccc = 'Catfish CMS Copyright';
+        $this->ccc = 'copyrights';
         $this->permissions = Session::get($this->session_prefix.'user_type');
         $this->assign('permissions', Session::get($this->session_prefix.'user_type'));
     }

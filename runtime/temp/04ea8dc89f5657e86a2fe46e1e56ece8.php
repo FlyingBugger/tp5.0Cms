@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:82:"C:\Users\flyingBugger\Desktop\ar\cms/application/admin\view\index\addclassify.html";i:1505897260;s:77:"C:\Users\flyingBugger\Desktop\ar\cms/application/admin\view\index\header.html";i:1512526280;s:78:"C:\Users\flyingBugger\Desktop\ar\cms/application/admin\view\index\sidebar.html";i:1493449308;s:77:"C:\Users\flyingBugger\Desktop\ar\cms/application/admin\view\index\footer.html";i:1504339462;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:78:"C:\Users\flyingBugger\Desktop\ar\cms/application/admin\view\index\newpage.html";i:1505897404;s:77:"C:\Users\flyingBugger\Desktop\ar\cms/application/admin\view\index\header.html";i:1512526280;s:78:"C:\Users\flyingBugger\Desktop\ar\cms/application/admin\view\index\sidebar.html";i:1493449308;s:77:"C:\Users\flyingBugger\Desktop\ar\cms/application/admin\view\index\footer.html";i:1504339462;}*/ ?>
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
@@ -320,38 +320,143 @@
 </div>
         <div class="col-xs-12 col-sm-9 col-md-10 pull-right" style="background-color:#FFFFFF;">
 
+<?php if(!(empty($editor_css) || ($editor_css instanceof \think\Collection && $editor_css->isEmpty()))): ?>
+<?php echo $editor_css; else: ?>
+<link href="<?php echo $domain; ?>public/common/umeditor/themes/default/css/umeditor.min.css" type="text/css" rel="stylesheet">
+<?php endif; ?>
+<link href="<?php echo $domain; ?>public/common/uploadify/uploadify.css" type="text/css" rel="stylesheet">
+<link href="<?php echo $domain; ?>public/common/datetimepicker/css/bootstrap-datetimepicker.min.css" type="text/css" rel="stylesheet">
 <div class="row bg-info text-center">
-    <h4><?php echo lang('Add category'); ?></h4>
+    <h4><?php echo lang('New page'); ?></h4>
 </div><br>
-<div class="container-fluid" style="min-height: 800px;">
-    <div class="row">
-        <form method="post" action="">
-            <h4><?php echo lang('With'); ?>&nbsp;<b><span class="text-danger">*</span></b>&nbsp;<?php echo lang('are required'); ?></h4>
-            <div class="form-group">
-                <label><?php echo lang('Category Name'); ?>：&nbsp;<b><span class="text-danger">*</span></b></label>
-                <input type="text" class="form-control" name="fenleim" placeholder="<?php echo lang('Category name'); ?>" required autofocus>
+<div class="container-fluid">
+    <div class="row" style="min-height: 800px;">
+        <form method="post" action="" name="writeForm">
+            <div class="col-md-9">
+                <h4><?php echo lang('With'); ?>&nbsp;<b><span class="text-danger">*</span></b>&nbsp;<?php echo lang('are required'); ?></h4>
+                <div class="form-group">
+                    <label><?php echo lang('Title'); ?>：&nbsp;<b><span class="text-danger">*</span></b></label>
+                    <input type="text" autofocus class="form-control input-lg" placeholder="<?php echo lang('Title'); ?>" name="biaoti" required>
+                </div>
+                <div class="form-group">
+                    <label><?php echo lang('Template'); ?>：&nbsp;<b><span class="text-danger">*</span></b></label>
+                    <select class="form-control" name="template">
+                        <?php if(is_array($dir) || $dir instanceof \think\Collection): $i = 0; $__LIST__ = $dir;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?>
+                        <option value="<?php echo $vo; ?>"><?php echo $vo; ?></option>
+                        <?php endforeach; endif; else: echo "" ;endif; ?>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label><?php echo lang('Details'); ?>：</label>
+                    <?php if(!(empty($editor) || ($editor instanceof \think\Collection && $editor->isEmpty()))): ?>
+                    <?php echo $editor; else: ?>
+                    <script type="text/plain" id="editor" style="width:100%;height:360px;"></script>
+                    <?php endif; ?>
+                    <textarea class="form-control hidden" rows="3" id="zhengwen" name="neirong"></textarea>
+                </div>
+                <div class="form-group">
+                    <label><?php echo lang('Key words'); ?>：</label>
+                    <input type="text" autofocus class="form-control input-lg" placeholder="<?php echo lang('Key words'); ?>" name="guanjianci">
+                    <p class="help-block"><?php echo lang('Keywords separated by commas ","'); ?></p>
+                </div>
+                <div class="form-group">
+                    <label><?php echo lang('Abstract'); ?>：</label>
+                    <textarea class="form-control" rows="3" name="zhaiyao"></textarea>
+                </div>
+                <div class="text-center">
+                    <input type="hidden" name="verification" value="<?php echo $verification; ?>">
+                    <button type="submit" class="btn btn-default" id="baocun"><?php echo lang('Save'); ?><span class="hidden">&nbsp;<img src="<?php echo $domain; ?>public/common/images/zhixing.gif" width="16" height="16"></span></button>
+                </div><br><br>
             </div>
-            <div class="form-group">
-                <label><?php echo lang('Category parent'); ?>：&nbsp;<b><span class="text-danger">*</span></b></label>
-                <select class="form-control" name="shangji">
-                    <option value="0"><?php echo lang('As the first level category'); ?></option>
-                    <?php if(is_array($fenlei) || $fenlei instanceof \think\Collection): $i = 0; $__LIST__ = $fenlei;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?>
-                    <option value="<?php echo $vo['id']; ?>"<?php if($fufenlei == $vo['id']): ?> selected<?php endif; ?>><?php echo $vo['level']; if($vo['level'] != ''): ?>└&nbsp;<?php endif; ?><?php echo $vo['term_name']; ?></option>
-                    <?php endforeach; endif; else: echo "" ;endif; ?>
-                </select>
-            </div>
-            <div class="form-group">
-                <label><?php echo lang('Category description'); ?></label>
-                <textarea class="form-control" rows="3" name="miaoshu"></textarea>
-            </div>
-            <hr>
-            <div class="text-center">
-                <input type="hidden" name="verification" value="<?php echo $verification; ?>">
-                <button type="submit" class="btn btn-default"><?php echo lang('Add category'); ?><span class="hidden">&nbsp;<img src="<?php echo $domain; ?>public/common/images/zhixing.gif" width="16" height="16"></span></button>
+            <div class="col-md-3">
+                <div class="panel panel-default">
+                    <div class="panel-heading"><?php echo lang('Thumbnail'); ?></div>
+                    <input type="hidden" id="slt" name="suolvetu" value="">
+                    <div class="panel-body" id="suolvetu">
+                        <img src="<?php echo $domain; ?>public/common/images/default-thumbnail.png" class="img-responsive" alt="<?php echo lang('Thumbnail'); ?>">
+                    </div>
+                    <div class="panel-footer">
+                        <button type="button" id="shangchuantu" class="btn btn-default btn-block" data-toggle="modal" data-target="#myModal">
+                            <?php echo lang('Upload image'); ?>
+                        </button>
+                        <button type="button" id="quxiaotu" class="btn btn-default btn-block hidden">
+                            <?php echo lang('Cancel upload image'); ?>
+                        </button>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading"><?php echo lang('Release time'); ?></div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <input type="text" name="fabushijian" id="fabushijian" class="form-control" placeholder="<?php echo lang('Release time'); ?>" value="<?php echo date("Y-m-d H:i:s"); ?>">
+                        </div>
+                    </div>
+                </div>
             </div>
         </form>
     </div>
 </div>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="myModalLabel"><?php echo lang('Upload image'); ?></h4>
+            </div>
+            <div class="modal-body">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation" id="xuanbendi" class="active"><a href="#bendi" role="tab" data-toggle="tab"><?php echo lang('Local image'); ?></a></li>
+                    <li role="presentation" id="xuanwangluo"><a href="#wangluo" role="tab" data-toggle="tab"><?php echo lang('Network picture'); ?></a></li>
+                </ul>
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active" id="bendi">
+                        <div class="container-fluid">
+                            <div class="row"><br>
+                                <label><?php echo lang('Please select Upload image'); ?></label>
+                                <div id="upload"></div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-body" style="min-height: 199px;">
+
+                            </div>
+                        </div>
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="wangluo">
+                        <div class="form-group"><br>
+                            <label><?php echo lang('Image address'); ?></label>
+                            <input type="text" class="form-control" id="wangluodizhi" placeholder="http://" value="http://">
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-body" style="min-height: 200px;">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo lang('Cancel'); ?></button>
+                <button type="button" class="btn btn-primary" id="queding"><?php echo lang('Ok'); ?></button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="hidden" id="webroot"><?php echo $domain; ?></div>
+<div class="hidden" id="buttonText"><?php echo lang('Select Image'); ?></div>
+<?php if(!(empty($editor_js) || ($editor_js instanceof \think\Collection && $editor_js->isEmpty()))): ?>
+<?php echo $editor_js; else: ?>
+<script type="text/javascript" charset="utf-8" src="<?php echo $domain; ?>public/common/umeditor/umeditor.config.js"></script>
+<script type="text/javascript" charset="utf-8" src="<?php echo $domain; ?>public/common/umeditor/umeditor.min.js"></script>
+<script type="text/javascript" src="<?php echo $domain; ?>public/common/umeditor/lang/zh-cn/zh-cn.js"></script>
+<?php endif; ?>
+<script type="text/javascript" src="<?php echo $domain; ?>public/common/uploadify/jquery.uploadify.js"></script>
+<script type="text/javascript" src="<?php echo $domain; ?>public/common/datetimepicker/js/bootstrap-datetimepicker.min.js" charset="UTF-8"></script>
+<?php if(!(empty($js) || ($js instanceof \think\Collection && $js->isEmpty()))): ?>
+<?php echo $js; else: ?>
+<script src="<?php echo $domain; ?>public/common/js/newpageEditor.js"></script>
+<?php endif; ?>
+<script src="<?php echo $domain; ?>public/common/js/newpage.js"></script>
         <div class="pull-right"><?php echo $catfish; ?></div>
         </div>
     </div>

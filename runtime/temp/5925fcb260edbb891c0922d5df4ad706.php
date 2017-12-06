@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:82:"C:\Users\flyingBugger\Desktop\ar\cms/application/admin\view\index\addclassify.html";i:1505897260;s:77:"C:\Users\flyingBugger\Desktop\ar\cms/application/admin\view\index\header.html";i:1512526280;s:78:"C:\Users\flyingBugger\Desktop\ar\cms/application/admin\view\index\sidebar.html";i:1493449308;s:77:"C:\Users\flyingBugger\Desktop\ar\cms/application/admin\view\index\footer.html";i:1504339462;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:77:"C:\Users\flyingBugger\Desktop\ar\cms/application/admin\view\index\themes.html";i:1505977072;s:77:"C:\Users\flyingBugger\Desktop\ar\cms/application/admin\view\index\header.html";i:1512526280;s:78:"C:\Users\flyingBugger\Desktop\ar\cms/application/admin\view\index\sidebar.html";i:1493449308;s:77:"C:\Users\flyingBugger\Desktop\ar\cms/application/admin\view\index\footer.html";i:1504339462;}*/ ?>
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
@@ -321,35 +321,31 @@
         <div class="col-xs-12 col-sm-9 col-md-10 pull-right" style="background-color:#FFFFFF;">
 
 <div class="row bg-info text-center">
-    <h4><?php echo lang('Add category'); ?></h4>
+    <h4><?php echo lang('Themes'); ?></h4>
 </div><br>
 <div class="container-fluid" style="min-height: 800px;">
     <div class="row">
-        <form method="post" action="">
-            <h4><?php echo lang('With'); ?>&nbsp;<b><span class="text-danger">*</span></b>&nbsp;<?php echo lang('are required'); ?></h4>
-            <div class="form-group">
-                <label><?php echo lang('Category Name'); ?>：&nbsp;<b><span class="text-danger">*</span></b></label>
-                <input type="text" class="form-control" name="fenleim" placeholder="<?php echo lang('Category name'); ?>" required autofocus>
+        <?php if(is_array($themes) || $themes instanceof \think\Collection): $i = 0; $__LIST__ = $themes;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 3 );++$i;if($mod == '0'): ?><div class="clearfix"></div><?php endif; ?>
+        <div class="col-sm-6 col-md-4">
+            <div class="thumbnail">
+                <img src="<?php echo $vo['url']; ?>" alt="<?php echo $vo['name']; ?>" class="img-responsive">
+                <div class="caption">
+                    <h3><?php echo $vo['name']; ?></h3>
+                    <p>
+                        <?php if($vo['open'] == '1'): ?>
+                        <a href="#" class="btn btn-primary" role="button" disabled="disabled"><?php echo lang('Active'); ?></a>
+                        <?php else: ?>
+                        <form method="post" action="">
+                            <input type="hidden" value="<?php echo $vo['name']; ?>" name="themeName">
+                            <input type="hidden" name="verification" value="<?php echo $verification; ?>">
+                            <button type="submit" class="btn btn-default"><?php echo lang('Open'); ?><span class="hidden">&nbsp;<img src="<?php echo $domain; ?>public/common/images/zhixing.gif" width="16" height="16"></span></button>
+                        </form>
+                        <?php endif; ?>
+                    </p>
+                </div>
             </div>
-            <div class="form-group">
-                <label><?php echo lang('Category parent'); ?>：&nbsp;<b><span class="text-danger">*</span></b></label>
-                <select class="form-control" name="shangji">
-                    <option value="0"><?php echo lang('As the first level category'); ?></option>
-                    <?php if(is_array($fenlei) || $fenlei instanceof \think\Collection): $i = 0; $__LIST__ = $fenlei;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?>
-                    <option value="<?php echo $vo['id']; ?>"<?php if($fufenlei == $vo['id']): ?> selected<?php endif; ?>><?php echo $vo['level']; if($vo['level'] != ''): ?>└&nbsp;<?php endif; ?><?php echo $vo['term_name']; ?></option>
-                    <?php endforeach; endif; else: echo "" ;endif; ?>
-                </select>
-            </div>
-            <div class="form-group">
-                <label><?php echo lang('Category description'); ?></label>
-                <textarea class="form-control" rows="3" name="miaoshu"></textarea>
-            </div>
-            <hr>
-            <div class="text-center">
-                <input type="hidden" name="verification" value="<?php echo $verification; ?>">
-                <button type="submit" class="btn btn-default"><?php echo lang('Add category'); ?><span class="hidden">&nbsp;<img src="<?php echo $domain; ?>public/common/images/zhixing.gif" width="16" height="16"></span></button>
-            </div>
-        </form>
+        </div>
+        <?php endforeach; endif; else: echo "" ;endif; ?>
     </div>
 </div>
         <div class="pull-right"><?php echo $catfish; ?></div>

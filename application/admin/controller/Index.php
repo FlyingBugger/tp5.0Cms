@@ -23,10 +23,6 @@ use think\Lang;
 class Index extends Common
 {
 
-    public function test(){
-      return $this->view();
-    }
-
     public function index()
     {
         $this->checkUser();

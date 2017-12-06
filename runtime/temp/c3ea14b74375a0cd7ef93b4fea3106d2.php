@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:76:"C:\Users\flyingBugger\Desktop\ar\cms/application/admin\view\index\index.html";i:1504492200;s:77:"C:\Users\flyingBugger\Desktop\ar\cms/application/admin\view\index\header.html";i:1506934118;s:78:"C:\Users\flyingBugger\Desktop\ar\cms/application/admin\view\index\sidebar.html";i:1493449308;s:77:"C:\Users\flyingBugger\Desktop\ar\cms/application/admin\view\index\footer.html";i:1504339462;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:76:"C:\Users\flyingBugger\Desktop\ar\cms/application/admin\view\index\index.html";i:1512525999;s:77:"C:\Users\flyingBugger\Desktop\ar\cms/application/admin\view\index\header.html";i:1512525867;s:78:"C:\Users\flyingBugger\Desktop\ar\cms/application/admin\view\index\sidebar.html";i:1493449308;s:77:"C:\Users\flyingBugger\Desktop\ar\cms/application/admin\view\index\footer.html";i:1504339462;}*/ ?>
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="copyright" content="Catfish CMS All Rights Reserved">
     <meta name="robots" content="noindex,noarchive">
-    <title><?php echo lang('Catfish CMS Backstage'); ?></title>
+    <title>后台管理系统</title>
     <link rel="icon" href="<?php echo $domain; ?>public/common/images/favicon.ico">
     <link rel="stylesheet" href="<?php echo $domain; ?>public/common/css/bootstrap.min.css">
     <script src="<?php echo $domain; ?>public/common/js/jquery.min.js"></script>
@@ -319,12 +319,13 @@
     </div>
 </div>
         <div class="col-xs-12 col-sm-9 col-md-10 pull-right" style="background-color:#FFFFFF;">
+
 <div class="row bg-info text-center">
     <h4><?php echo lang('Welcome page'); ?></h4>
 </div><br>
 <div class="container-fluid" style="min-height: 800px;">
     <div class="row">
-        <div class="panel panel-default">
+        <div class="panel panel-default" style="display:none;">
             <div class="panel-heading">
                 <h3 class="panel-title"><?php echo lang('System information'); ?></h3>
             </div>

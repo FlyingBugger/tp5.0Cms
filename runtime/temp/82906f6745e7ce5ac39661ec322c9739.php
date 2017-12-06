@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:82:"C:\Users\flyingBugger\Desktop\ar\cms/application/admin\view\index\addclassify.html";i:1505897260;s:77:"C:\Users\flyingBugger\Desktop\ar\cms/application/admin\view\index\header.html";i:1512526280;s:78:"C:\Users\flyingBugger\Desktop\ar\cms/application/admin\view\index\sidebar.html";i:1493449308;s:77:"C:\Users\flyingBugger\Desktop\ar\cms/application/admin\view\index\footer.html";i:1504339462;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:80:"C:\Users\flyingBugger\Desktop\ar\cms/application/admin\view\index\slideshow.html";i:1505963768;s:77:"C:\Users\flyingBugger\Desktop\ar\cms/application/admin\view\index\header.html";i:1512526280;s:78:"C:\Users\flyingBugger\Desktop\ar\cms/application/admin\view\index\sidebar.html";i:1493449308;s:77:"C:\Users\flyingBugger\Desktop\ar\cms/application/admin\view\index\footer.html";i:1504339462;}*/ ?>
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
@@ -320,38 +320,76 @@
 </div>
         <div class="col-xs-12 col-sm-9 col-md-10 pull-right" style="background-color:#FFFFFF;">
 
+<link href="<?php echo $domain; ?>public/common/confirm/jquery-confirm.css" type="text/css" rel="stylesheet">
 <div class="row bg-info text-center">
-    <h4><?php echo lang('Add category'); ?></h4>
+    <h4><?php echo lang('All slides'); ?></h4>
 </div><br>
 <div class="container-fluid" style="min-height: 800px;">
-    <div class="row">
-        <form method="post" action="">
-            <h4><?php echo lang('With'); ?>&nbsp;<b><span class="text-danger">*</span></b>&nbsp;<?php echo lang('are required'); ?></h4>
-            <div class="form-group">
-                <label><?php echo lang('Category Name'); ?>：&nbsp;<b><span class="text-danger">*</span></b></label>
-                <input type="text" class="form-control" name="fenleim" placeholder="<?php echo lang('Category name'); ?>" required autofocus>
-            </div>
-            <div class="form-group">
-                <label><?php echo lang('Category parent'); ?>：&nbsp;<b><span class="text-danger">*</span></b></label>
-                <select class="form-control" name="shangji">
-                    <option value="0"><?php echo lang('As the first level category'); ?></option>
-                    <?php if(is_array($fenlei) || $fenlei instanceof \think\Collection): $i = 0; $__LIST__ = $fenlei;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?>
-                    <option value="<?php echo $vo['id']; ?>"<?php if($fufenlei == $vo['id']): ?> selected<?php endif; ?>><?php echo $vo['level']; if($vo['level'] != ''): ?>└&nbsp;<?php endif; ?><?php echo $vo['term_name']; ?></option>
-                    <?php endforeach; endif; else: echo "" ;endif; ?>
-                </select>
-            </div>
-            <div class="form-group">
-                <label><?php echo lang('Category description'); ?></label>
-                <textarea class="form-control" rows="3" name="miaoshu"></textarea>
-            </div>
-            <hr>
-            <div class="text-center">
+    <form class="form-inline" method="post" action="">
+        <div>
+            <p>
+                <input type="hidden" name="paixu" value="paixu">
                 <input type="hidden" name="verification" value="<?php echo $verification; ?>">
-                <button type="submit" class="btn btn-default"><?php echo lang('Add category'); ?><span class="hidden">&nbsp;<img src="<?php echo $domain; ?>public/common/images/zhixing.gif" width="16" height="16"></span></button>
+                <button type="submit" id="pshanchu" class="btn btn-primary btn-sm"><?php echo lang('Sort'); ?><span class="hidden">&nbsp;<img src="<?php echo $domain; ?>public/common/images/zhixing_bai.gif" width="14" height="14"></span></button>
+            </p>
+        </div>
+        <div class="row">
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th style="width: 80px;"><?php echo lang('Sort'); ?></th>
+                        <th>ID</th>
+                        <th><?php echo lang('Image'); ?></th>
+                        <th><?php echo lang('Name'); ?></th>
+                        <th><?php echo lang('Description'); ?></th>
+                        <th><?php echo lang('Link'); ?></th>
+                        <th><?php echo lang('Status'); ?></th>
+                        <th><?php echo lang('Operation'); ?></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php if(is_array($data) || $data instanceof \think\Collection): $i = 0; $__LIST__ = $data;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?>
+                    <tr>
+                        <td>
+                            <input type="text" value="<?php echo $vo['listorder']; ?>" name="<?php echo $vo['slide_id']; ?>" class="form-control" maxlength="8" style="width: 80px;">
+                        </td>
+                        <td><?php echo $vo['slide_id']; ?></td>
+                        <td><img src="<?php echo $vo['slide_pic']; ?>" width="80"></td>
+                        <td><?php echo $vo['slide_name']; ?></td>
+                        <td><?php echo $vo['slide_des']; ?></td>
+                        <td><?php echo $vo['slide_url']; ?></td>
+                        <td>
+                            <?php if($vo['slide_status'] == 1): ?><h5 class="text-success"><span class="glyphicon glyphicon-ok"></span> <?php echo lang('Display'); ?></h5>
+                            <?php else: ?><h5 class="text-muted"><?php echo lang('Not show'); ?></h5>
+                            <?php endif; ?>
+                        </td>
+                        <td>
+                            <input class="hidden" value="<?php echo $vo['slide_status']; ?>">
+                            <a href="<?php echo Url('modifyslide'); ?>?c=<?php echo $vo['slide_id']; ?>"><?php echo lang('Edit'); ?></a>
+                            &nbsp;|&nbsp;
+                            <a class="twitter" data-title="<?php echo lang('Confirm to delete?'); ?>" href="#!"><?php echo lang('Delete'); ?></a>
+                            &nbsp;|&nbsp;
+                            <a class="yincang<?php if($vo['slide_status'] != 1): ?> hidden<?php endif; ?>" href="#!"><?php echo lang('Hide'); ?><span class="hidden">&nbsp;<img src="<?php echo $domain; ?>public/common/images/zhixing.gif" width="16" height="16"></span></a>
+                            <a class="qiyong<?php if($vo['slide_status'] == 1): ?> hidden<?php endif; ?>" href="#!"><?php echo lang('Enabled'); ?><span class="hidden">&nbsp;<img src="<?php echo $domain; ?>public/common/images/zhixing.gif" width="16" height="16"></span></a>
+                        </td>
+                    </tr>
+                    <?php endforeach; endif; else: echo "" ;endif; ?>
+                    </tbody>
+                </table>
             </div>
-        </form>
-    </div>
-</div>
+        </div>
+    </form>
+</div><br>
+<div class="hidden" id="buxianshi"><?php echo lang('Not show'); ?></div>
+<div class="hidden" id="xianshi"><?php echo lang('Display'); ?></div>
+<div class="hidden" id="quedingshanchu"><?php echo lang('Confirm to delete?'); ?></div>
+<div class="hidden" id="bukehuifu"><?php echo lang('Are you sure you want to delete the slideshow? Can not be restored after deletion!'); ?></div>
+<div class="hidden" id="jixu"><?php echo lang('Continue'); ?></div>
+<div class="hidden" id="quxiao"><?php echo lang('Cancel'); ?></div>
+<div class="hidden" id="verification"><?php echo $verification; ?></div>
+<script src="<?php echo $domain; ?>public/common/confirm/jquery-confirm.js"></script>
+<script src="<?php echo $domain; ?>public/common/js/slideshow.js"></script>
         <div class="pull-right"><?php echo $catfish; ?></div>
         </div>
     </div>

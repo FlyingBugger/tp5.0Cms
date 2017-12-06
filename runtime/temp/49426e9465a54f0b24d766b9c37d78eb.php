@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:82:"C:\Users\flyingBugger\Desktop\ar\cms/application/admin\view\index\addclassify.html";i:1505897260;s:77:"C:\Users\flyingBugger\Desktop\ar\cms/application/admin\view\index\header.html";i:1512526280;s:78:"C:\Users\flyingBugger\Desktop\ar\cms/application/admin\view\index\sidebar.html";i:1493449308;s:77:"C:\Users\flyingBugger\Desktop\ar\cms/application/admin\view\index\footer.html";i:1504339462;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:79:"C:\Users\flyingBugger\Desktop\ar\cms/application/admin\view\index\articles.html";i:1505956134;s:77:"C:\Users\flyingBugger\Desktop\ar\cms/application/admin\view\index\header.html";i:1512526280;s:78:"C:\Users\flyingBugger\Desktop\ar\cms/application/admin\view\index\sidebar.html";i:1493449308;s:77:"C:\Users\flyingBugger\Desktop\ar\cms/application/admin\view\index\footer.html";i:1504339462;}*/ ?>
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
@@ -320,38 +320,119 @@
 </div>
         <div class="col-xs-12 col-sm-9 col-md-10 pull-right" style="background-color:#FFFFFF;">
 
+<link href="<?php echo $domain; ?>public/common/datetimepicker/css/bootstrap-datetimepicker.min.css" type="text/css" rel="stylesheet">
+<link href="<?php echo $domain; ?>public/common/confirm/jquery-confirm.css" type="text/css" rel="stylesheet">
 <div class="row bg-info text-center">
-    <h4><?php echo lang('Add category'); ?></h4>
+    <h4><?php echo lang('All articles'); ?></h4>
 </div><br>
 <div class="container-fluid" style="min-height: 800px;">
     <div class="row">
-        <form method="post" action="">
-            <h4><?php echo lang('With'); ?>&nbsp;<b><span class="text-danger">*</span></b>&nbsp;<?php echo lang('are required'); ?></h4>
-            <div class="form-group">
-                <label><?php echo lang('Category Name'); ?>：&nbsp;<b><span class="text-danger">*</span></b></label>
-                <input type="text" class="form-control" name="fenleim" placeholder="<?php echo lang('Category name'); ?>" required autofocus>
-            </div>
-            <div class="form-group">
-                <label><?php echo lang('Category parent'); ?>：&nbsp;<b><span class="text-danger">*</span></b></label>
-                <select class="form-control" name="shangji">
-                    <option value="0"><?php echo lang('As the first level category'); ?></option>
-                    <?php if(is_array($fenlei) || $fenlei instanceof \think\Collection): $i = 0; $__LIST__ = $fenlei;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?>
-                    <option value="<?php echo $vo['id']; ?>"<?php if($fufenlei == $vo['id']): ?> selected<?php endif; ?>><?php echo $vo['level']; if($vo['level'] != ''): ?>└&nbsp;<?php endif; ?><?php echo $vo['term_name']; ?></option>
-                    <?php endforeach; endif; else: echo "" ;endif; ?>
-                </select>
-            </div>
-            <div class="form-group">
-                <label><?php echo lang('Category description'); ?></label>
-                <textarea class="form-control" rows="3" name="miaoshu"></textarea>
-            </div>
-            <hr>
-            <div class="text-center">
-                <input type="hidden" name="verification" value="<?php echo $verification; ?>">
-                <button type="submit" class="btn btn-default"><?php echo lang('Add category'); ?><span class="hidden">&nbsp;<img src="<?php echo $domain; ?>public/common/images/zhixing.gif" width="16" height="16"></span></button>
-            </div>
-        </form>
+        <div class="well">
+            <form class="form-inline" role="form" method="get" action="search">
+                <div class="form-group">
+                    <label><?php echo lang('Category'); ?>：</label>
+                    <select class="form-control" name="fenlei">
+                        <option value="0"><?php echo lang('All'); ?></option>
+                        <?php if(is_array($fenlei) || $fenlei instanceof \think\Collection): $i = 0; $__LIST__ = $fenlei;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?>
+                        <option value="<?php echo $vo['id']; ?>"><?php echo $vo['level']; ?><?php echo $vo['term_name']; ?></option>
+                        <?php endforeach; endif; else: echo "" ;endif; ?>
+                    </select>
+                </div>&nbsp;&nbsp;
+                <div class="form-group">
+                    <label><?php echo lang('Time'); ?>：</label>
+                    <input type="text" class="form-control" readonly id="fromdatetime" name="start">&nbsp;—
+                    <input type="text" class="form-control" readonly id="todatetime" name="end">
+                </div>&nbsp;&nbsp;
+                <div class="form-group">
+                    <label><?php echo lang('Keyword'); ?>：</label>
+                    <input type="text" name="key" class="form-control" placeholder="<?php echo lang('Keyword'); ?>">
+                </div>
+                <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span>&nbsp;<?php echo lang('Search'); ?></button>
+            </form>
+        </div>
     </div>
-</div>
+    <div>
+        <p>
+            <label><?php echo lang('Batch operation'); ?>：</label>
+            <?php if($authority == 'all'): ?>
+            <button type="button" id="shenhe" class="btn btn-primary btn-sm"><?php echo lang('Approve'); ?><span class="hidden">&nbsp;<img src="<?php echo $domain; ?>public/common/images/zhixing_bai.gif" width="14" height="14"></span></button>
+            <button type="button" id="weishenhe" class="btn btn-primary btn-sm"><?php echo lang('Unapprove'); ?><span class="hidden">&nbsp;<img src="<?php echo $domain; ?>public/common/images/zhixing_bai.gif" width="14" height="14"></span></button>
+            <button type="button" id="zhiding" class="btn btn-primary btn-sm"><?php echo lang('Top'); ?><span class="hidden">&nbsp;<img src="<?php echo $domain; ?>public/common/images/zhixing_bai.gif" width="14" height="14"></span></button>
+            <button type="button" id="weizhiding" class="btn btn-primary btn-sm"><?php echo lang('Cancel top'); ?><span class="hidden">&nbsp;<img src="<?php echo $domain; ?>public/common/images/zhixing_bai.gif" width="14" height="14"></span></button>
+            <button type="button" id="tuijian" class="btn btn-primary btn-sm"><?php echo lang('Recommend'); ?><span class="hidden">&nbsp;<img src="<?php echo $domain; ?>public/common/images/zhixing_bai.gif" width="14" height="14"></span></button>
+            <button type="button" id="weituijian" class="btn btn-primary btn-sm"><?php echo lang('Cancel recommended'); ?><span class="hidden">&nbsp;<img src="<?php echo $domain; ?>public/common/images/zhixing_bai.gif" width="14" height="14"></span></button>
+            <?php endif; ?>
+            <button type="button" id="pshanchu" class="btn btn-primary btn-sm"><?php echo lang('Delete'); ?><span class="hidden">&nbsp;<img src="<?php echo $domain; ?>public/common/images/zhixing_bai.gif" width="14" height="14"></span></button>
+        </p>
+    </div>
+    <div class="row">
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>
+                        <input type="checkbox" id="zxuan">
+                    </th>
+                    <th><?php echo lang('Title'); ?></th>
+                    <th><?php echo lang('Click volume'); ?></th>
+                    <th><?php echo lang('Comments volume'); ?></th>
+                    <th><?php echo lang('Author'); ?></th>
+                    <th><?php echo lang('Release time'); ?></th>
+                    <th><?php echo lang('Status'); ?></th>
+                    <th><?php echo lang('Operation'); ?></th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php if(is_array($data) || $data instanceof \think\Collection): $i = 0; $__LIST__ = $data;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?>
+                <tr>
+                    <td>
+                        <input class="gouxuan" type="checkbox" value="<?php echo $vo['id']; ?>">
+                    </td>
+                    <td><?php if($vo['thumbnail'] != ''): ?><img src="<?php echo $vo['thumbnail']; ?>" width="50">&nbsp;<?php endif; ?><a href="<?php echo Url('/index/Index/article/id/'.$vo['id']); ?>" target="_blank"><?php echo $vo['post_title']; ?></a></td>
+                    <td><?php echo $vo['post_hits']; ?></td>
+                    <td><?php echo $vo['comment_count']; ?></td>
+                    <td><?php echo $vo['user_login']; ?></td>
+                    <td><?php echo $vo['post_date']; ?></td>
+                    <td>
+                        <?php if(($vo['post_status'] == 1)): ?> <h5 class="text-success"><span class="glyphicon glyphicon-ok"></span> <?php echo lang('Audited'); ?></h5>
+                        <?php else: ?> <h5 class="text-muted"><?php echo lang('Not audited'); ?></h5>
+                        <?php endif; if(($vo['istop'] == 1)): ?> <h5 class="text-success"><span class="glyphicon glyphicon-ok"></span> <?php echo lang('Topped'); ?></h5>
+                        <?php else: ?> <h5 class="text-muted"><?php echo lang('Not top'); ?></h5>
+                        <?php endif; if(($vo['recommended'] == 1)): ?> <h5 class="text-success"><span class="glyphicon glyphicon-ok"></span> <?php echo lang('Recommended'); ?></h5>
+                        <?php else: ?> <h5 class="text-muted"><?php echo lang('Not recommended'); ?></h5>
+                        <?php endif; ?>
+                    </td>
+                    <td>
+                        <a href="<?php echo Url('rewrite'); ?>?art=<?php echo $vo['id']; ?>" target="_blank"><?php echo lang('Edit'); ?></a>
+                        &nbsp;|&nbsp;
+                        <a class="twitter" data-title="<?php echo lang('Confirm to delete?'); ?>" href="#!"><?php echo lang('Delete'); ?></a>
+                    </td>
+                </tr>
+                <?php endforeach; endif; else: echo "" ;endif; ?>
+                </tbody>
+            </table>
+        </div>
+        <?php echo $data->render(); ?>
+    </div>
+</div><br>
+<div class="hidden" id="quedingshanchu"><?php echo lang('Confirm to delete?'); ?></div>
+<div class="hidden" id="fangruhuishouzhan"><?php echo lang('Are you sure you want to put this post in the trash?'); ?></div>
+<div class="hidden" id="jixu"><?php echo lang('Continue'); ?></div>
+<div class="hidden" id="quxiao"><?php echo lang('Cancel'); ?></div>
+<div class="hidden" id="wenzhanghuishou"><?php echo lang('Are you sure you want to put the selected article in the recycle bin?'); ?></div>
+<div class="hidden" id="yishenhe"><?php echo lang('Audited'); ?></div>
+<div class="hidden" id="meishenhe"><?php echo lang('Not audited'); ?></div>
+<div class="hidden" id="yizhiding"><?php echo lang('Topped'); ?></div>
+<div class="hidden" id="meizhiding"><?php echo lang('Not top'); ?></div>
+<div class="hidden" id="yituijian"><?php echo lang('Recommended'); ?></div>
+<div class="hidden" id="meituijian"><?php echo lang('Not recommended'); ?></div>
+<div class="hidden" id="jinggao"><?php echo lang('Warning!'); ?></div>
+<div class="hidden" id="zhishaoxuanyixiang"><?php echo lang('Please select at least one!'); ?></div>
+<div class="hidden" id="queding"><?php echo lang('Ok'); ?></div>
+<div class="hidden" id="verification"><?php echo $verification; ?></div>
+<script type="text/javascript" src="<?php echo $domain; ?>public/common/datetimepicker/js/bootstrap-datetimepicker.min.js" charset="UTF-8"></script>
+<script src="<?php echo $domain; ?>public/common/confirm/jquery-confirm.js"></script>
+<script src="<?php echo $domain; ?>public/common/js/articles.js"></script>
         <div class="pull-right"><?php echo $catfish; ?></div>
         </div>
     </div>

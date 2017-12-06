@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:82:"C:\Users\flyingBugger\Desktop\ar\cms/application/admin\view\index\addclassify.html";i:1505897260;s:77:"C:\Users\flyingBugger\Desktop\ar\cms/application/admin\view\index\header.html";i:1512526280;s:78:"C:\Users\flyingBugger\Desktop\ar\cms/application/admin\view\index\sidebar.html";i:1493449308;s:77:"C:\Users\flyingBugger\Desktop\ar\cms/application/admin\view\index\footer.html";i:1504339462;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:77:"C:\Users\flyingBugger\Desktop\ar\cms/application/admin\view\index\plugin.html";i:1505977432;s:77:"C:\Users\flyingBugger\Desktop\ar\cms/application/admin\view\index\header.html";i:1506934118;s:78:"C:\Users\flyingBugger\Desktop\ar\cms/application/admin\view\index\sidebar.html";i:1493449308;s:77:"C:\Users\flyingBugger\Desktop\ar\cms/application/admin\view\index\footer.html";i:1504339462;}*/ ?>
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="copyright" content="Catfish CMS All Rights Reserved">
     <meta name="robots" content="noindex,noarchive">
-    <title>后台管理系统</title>
+    <title><?php echo lang('Catfish CMS Backstage'); ?></title>
     <link rel="icon" href="<?php echo $domain; ?>public/common/images/favicon.ico">
     <link rel="stylesheet" href="<?php echo $domain; ?>public/common/css/bootstrap.min.css">
     <script src="<?php echo $domain; ?>public/common/js/jquery.min.js"></script>
@@ -27,7 +27,7 @@
                 <a class="navbar-brand" href="<?php echo Url('/admin'); ?>">
                     <img alt="<?php echo lang('Catfish Management Center'); ?>" src="<?php echo $domain; ?>public/common/images/catfish_white.png" width="20" height="20">
                 </a>
-                <a class="navbar-brand" href="<?php echo Url('/admin'); ?>">管理中心</a>
+                <a class="navbar-brand" href="<?php echo Url('/admin'); ?>"><?php echo lang('Catfish Management Center'); ?></a>
             </div>
             <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
@@ -319,39 +319,55 @@
     </div>
 </div>
         <div class="col-xs-12 col-sm-9 col-md-10 pull-right" style="background-color:#FFFFFF;">
-
 <div class="row bg-info text-center">
-    <h4><?php echo lang('Add category'); ?></h4>
+    <h4><?php echo lang('Plug-ins'); ?></h4>
 </div><br>
 <div class="container-fluid" style="min-height: 800px;">
     <div class="row">
-        <form method="post" action="">
-            <h4><?php echo lang('With'); ?>&nbsp;<b><span class="text-danger">*</span></b>&nbsp;<?php echo lang('are required'); ?></h4>
-            <div class="form-group">
-                <label><?php echo lang('Category Name'); ?>：&nbsp;<b><span class="text-danger">*</span></b></label>
-                <input type="text" class="form-control" name="fenleim" placeholder="<?php echo lang('Category name'); ?>" required autofocus>
-            </div>
-            <div class="form-group">
-                <label><?php echo lang('Category parent'); ?>：&nbsp;<b><span class="text-danger">*</span></b></label>
-                <select class="form-control" name="shangji">
-                    <option value="0"><?php echo lang('As the first level category'); ?></option>
-                    <?php if(is_array($fenlei) || $fenlei instanceof \think\Collection): $i = 0; $__LIST__ = $fenlei;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?>
-                    <option value="<?php echo $vo['id']; ?>"<?php if($fufenlei == $vo['id']): ?> selected<?php endif; ?>><?php echo $vo['level']; if($vo['level'] != ''): ?>└&nbsp;<?php endif; ?><?php echo $vo['term_name']; ?></option>
-                    <?php endforeach; endif; else: echo "" ;endif; ?>
-                </select>
-            </div>
-            <div class="form-group">
-                <label><?php echo lang('Category description'); ?></label>
-                <textarea class="form-control" rows="3" name="miaoshu"></textarea>
-            </div>
-            <hr>
-            <div class="text-center">
-                <input type="hidden" name="verification" value="<?php echo $verification; ?>">
-                <button type="submit" class="btn btn-default"><?php echo lang('Add category'); ?><span class="hidden">&nbsp;<img src="<?php echo $domain; ?>public/common/images/zhixing.gif" width="16" height="16"></span></button>
-            </div>
-        </form>
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th><?php echo lang('Plugin'); ?></th>
+                    <th><?php echo lang('The plugin name'); ?></th>
+                    <th><?php echo lang('Author'); ?></th>
+                    <th><?php echo lang('Version'); ?></th>
+                    <th><?php echo lang('Description'); ?></th>
+                    <th><?php echo lang('Plugin URL'); ?></th>
+                    <th><?php echo lang('Status'); ?></th>
+                    <th><?php echo lang('Operation'); ?></th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php if(is_array($data) || $data instanceof \think\Collection): $i = 0; $__LIST__ = $data;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?>
+                <tr>
+                    <td><?php echo $vo['plugin']; ?></td>
+                    <td><?php echo $vo['name']; ?></td>
+                    <td><?php echo $vo['author']; ?></td>
+                    <td><?php echo $vo['version']; ?></td>
+                    <td><?php echo $vo['description']; ?></td>
+                    <td><?php echo $vo['pluginUrl']; ?></td>
+                    <td>
+                        <?php if(($vo['open'] == 1)): ?> <h5 class="text-success"><span class="glyphicon glyphicon-ok"></span> <?php echo lang('Turned on'); ?></h5>
+                        <?php else: ?> <h5 class="text-muted"><?php echo lang('Unopened'); ?></h5>
+                        <?php endif; ?>
+                    </td>
+                    <td>
+                        <input class="hidden" value="<?php echo $vo['open']; ?>">
+                        <a class="yincang<?php if($vo['open'] != 1): ?> hidden<?php endif; ?>" href="#!"><?php echo lang('Close'); ?><span class="hidden">&nbsp;<img src="<?php echo $domain; ?>public/common/images/zhixing.gif" width="16" height="16"></span></a>
+                        <a class="qiyong<?php if($vo['open'] == 1): ?> hidden<?php endif; ?>" href="#!"><?php echo lang('Open'); ?><span class="hidden">&nbsp;<img src="<?php echo $domain; ?>public/common/images/zhixing.gif" width="16" height="16"></span></a>
+                    </td>
+                </tr>
+                <?php endforeach; endif; else: echo "" ;endif; ?>
+                </tbody>
+            </table>
+        </div>
     </div>
-</div>
+</div><br>
+<div class="hidden" id="weikaiqi"><?php echo lang('Unopened'); ?></div>
+<div class="hidden" id="yikaiqi"><?php echo lang('Turned on'); ?></div>
+<div class="hidden" id="verification"><?php echo $verification; ?></div>
+<script src="<?php echo $domain; ?>public/common/js/plugin.js"></script>
         <div class="pull-right"><?php echo $catfish; ?></div>
         </div>
     </div>

@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:79:"C:\Users\flyingBugger\Desktop\ar\cms/application/../public/default/article.html";i:1508333384;s:26:"public/default/header.html";i:1512525384;s:26:"public/default/footer.html";i:1508209680;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:76:"C:\Users\flyingBugger\Desktop\ar\cms/application/../public/blog/article.html";i:1508333426;s:23:"public/blog/header.html";i:1490599610;s:23:"public/blog/footer.html";i:1508209498;}*/ ?>
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
@@ -10,7 +10,6 @@
     <meta name="description" content="<?php echo $description; ?>">
     <link rel="icon" href="<?php if(!(empty($ico) || ($ico instanceof \think\Collection && $ico->isEmpty()))): ?><?php echo $ico; else: ?><?php echo $domain; ?>public/common/images/favicon.ico<?php endif; ?>">
     <link rel="stylesheet" href="<?php echo $domain; ?>public/common/css/bootstrap.min.css">
-    <link rel="stylesheet" href="<?php echo $domain; ?>public/<?php echo $template; ?>/css/<?php echo $template; ?>.css">
     <script src="<?php echo $domain; ?>public/common/js/jquery.min.js"></script>
     <script src="<?php echo $domain; ?>public/common/js/bootstrap.min.js"></script>
 </head>
@@ -68,7 +67,6 @@
     </div>
 </nav>
 <?php if(!(empty($top) || ($top instanceof \think\Collection && $top->isEmpty()))): ?><?php echo $top; endif; ?>
-
 <link href="<?php echo $domain; ?>public/common/umeditor/themes/default/css/umeditor.min.css" type="text/css" rel="stylesheet">
 <div class="container">
     <div class="row">

@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:79:"C:\Users\flyingBugger\Desktop\ar\cms/application/../public/default/article.html";i:1508333384;s:26:"public/default/header.html";i:1512525384;s:26:"public/default/footer.html";i:1508209680;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:80:"C:\Users\flyingBugger\Desktop\ar\cms/application/../public/default/category.html";i:1490619938;s:26:"public/default/header.html";i:1490619860;s:26:"public/default/footer.html";i:1508209680;}*/ ?>
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
@@ -68,96 +68,40 @@
     </div>
 </nav>
 <?php if(!(empty($top) || ($top instanceof \think\Collection && $top->isEmpty()))): ?><?php echo $top; endif; ?>
-
-<link href="<?php echo $domain; ?>public/common/umeditor/themes/default/css/umeditor.min.css" type="text/css" rel="stylesheet">
 <div class="container">
     <div class="row">
         <div class="col-md-8">
             <ol class="breadcrumb">
                 <li><a href="<?php echo $url['href']; ?>">首页</a></li>
-                <li class="active"><a href="<?php echo $url['articles']; ?>">文章</a></li>
-                <li class="active"><?php echo subtext($neirong['biaoti'],28); ?></li>
+                <li id="daohang1" class="active"><?php if(!(empty($daohang1) || ($daohang1 instanceof \think\Collection && $daohang1->isEmpty()))): ?><?php echo $daohang1; endif; ?></li>
             </ol>
-            <?php if(!(empty($article_top) || ($article_top instanceof \think\Collection && $article_top->isEmpty()))): ?><?php echo $article_top; endif; ?>
+            <?php if(!(empty($category_top) || ($category_top instanceof \think\Collection && $category_top->isEmpty()))): ?><?php echo $category_top; endif; if(!(empty($article_list_top) || ($article_list_top instanceof \think\Collection && $article_list_top->isEmpty()))): ?><?php echo $article_list_top; endif; if(!(empty($search_top) || ($search_top instanceof \think\Collection && $search_top->isEmpty()))): ?><?php echo $search_top; endif; if(!(empty($sousuo) || ($sousuo instanceof \think\Collection && $sousuo->isEmpty()))): ?>
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <?php if(empty($neirong) || ($neirong instanceof \think\Collection && $neirong->isEmpty())): ?>
-                    <h4 class="text-center"><span class="glyphicon glyphicon-send"></span>&nbsp;您查看的内容已经搬家了!</h4>
-                    <?php else: ?>
-                    <h3 class="text-center"><?php echo $neirong['biaoti']; ?></h3>
-                    <h5 class="text-center text-muted">
-                        <?php if(!(empty($neirong['laiyuan']) || ($neirong['laiyuan'] instanceof \think\Collection && $neirong['laiyuan']->isEmpty()))): ?>来源：<?php echo $neirong['laiyuan']; ?>&nbsp;<?php endif; ?>发布时间：<?php echo $neirong['fabushijian']; ?>&nbsp;作者：<?php echo $neirong['nicheng']; ?>&nbsp;阅读量：<?php echo $neirong['yuedu']; if($yunxupinglun == 1): ?>
-                        <a href="#zpinglun" class="pull-right" title="我要评论"><span class="glyphicon glyphicon-comment"></span></a>
-                        <?php endif; ?>
-                    </h5>
+                    <?php echo $sousuo; ?>
+                </div>
+            </div>
+            <?php endif; if(is_array($fenlei) || $fenlei instanceof \think\Collection): $i = 0; $__LIST__ = $fenlei;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <?php if(!(empty($vo['suolvetu']) || ($vo['suolvetu'] instanceof \think\Collection && $vo['suolvetu']->isEmpty()))): ?>
+                    <div class="col-xs-12 col-md-3">
+                        <a href="<?php echo $vo['href']; ?>" title="<?php echo $vo['biaoti']; ?>">
+                            <img src="<?php echo $vo['suolvetu']; ?>" class="img-responsive thumbnail center-block" alt="Responsive image">
+                        </a>
+                    </div>
                     <?php endif; ?>
+                    <div<?php if(!(empty($vo['suolvetu']) || ($vo['suolvetu'] instanceof \think\Collection && $vo['suolvetu']->isEmpty()))): ?> class="col-xs-12 col-md-9"<?php endif; ?>>
+                        <h4><a href="<?php echo $vo['href']; ?>" title="<?php echo $vo['biaoti']; ?>"><?php echo $vo['biaoti']; ?></a></h4>
+                        <p><?php echo subtext($vo['zhaiyao'],148); ?></p>
+                    </div>
                 </div>
             </div>
-            <div class="panel panel-default">
-                <?php if(!(empty($neirong) || ($neirong instanceof \think\Collection && $neirong->isEmpty()))): if(!(empty($article_mid) || ($article_mid instanceof \think\Collection && $article_mid->isEmpty()))): ?><?php echo $article_mid; endif; ?>
-                <div class="panel-body">
-                    <h4 style="line-height: 1.5em"><?php echo $neirong['zhengwen']; ?></h4>
-                </div>
-                <?php if(!(empty($article_bottom) || ($article_bottom instanceof \think\Collection && $article_bottom->isEmpty()))): ?><?php echo $article_bottom; endif; ?>
-                <div class="panel-body text-center"><a name="zpinglun"></a>
-                    <input type="hidden" value="<?php echo $neirong['id']; ?>">
-                    <button class="btn btn-primary" type="button" id="zan">
-                        <span class="glyphicon glyphicon-thumbs-up"></span>&nbsp;赞一个 <span class="badge" id="zanshu"><?php echo $neirong['zan']; ?></span>
-                    </button>
-                    <span id="woyaoshoucang"<?php if(empty($login) || ($login instanceof \think\Collection && $login->isEmpty())): ?> class="hidden"<?php endif; ?>>
-                        &nbsp;&nbsp;
-                        <button class="btn btn-primary" type="button" id="shoucang">
-                            <span class="glyphicon glyphicon-heart-empty"></span>&nbsp;我要收藏 <span class="glyphicon glyphicon-ok hidden" id="yishoucang"></span>
-                        </button>
-                    </span>
-                </div>
-                <?php endif; ?>
-                <div class="panel-body">
-                    <div class="row">
-                        <div class="col-md-6">上一篇：<a href="<?php echo $previous['href']; ?>"><?php echo $previous['biaoti']; ?></a></div>
-                        <div class="col-md-6">下一篇：<a href="<?php echo $next['href']; ?>"><?php echo $next['biaoti']; ?></a></div>
-                    </div>
-                </div>
-                <?php if(!(empty($comment_top) || ($comment_top instanceof \think\Collection && $comment_top->isEmpty()))): ?><?php echo $comment_top; endif; if($closeComment != 1): if($yunxupinglun == 1): ?>
-                <div class="panel-body">
-                    <h4>我要评论<?php if(empty($login) || ($login instanceof \think\Collection && $login->isEmpty())): ?> <small>登录后才能发布评论</small><?php endif; ?></h4>
-                    <script type="text/plain" id="editor" style="width:100%;height:160px;"></script>
-                    <textarea class="form-control hidden" rows="3" id="zhengwen" name="neirong"></textarea>
-                </div>
-                <div class="panel-body">
-                    <div class="text-center">
-                        <input type="hidden" value="<?php echo $neirong['id']; ?>">
-                        <button type="button" id="pinglun" class="btn btn-info pinglun<?php if(empty($login) || ($login instanceof \think\Collection && $login->isEmpty())): ?> hidden<?php endif; ?>">提交评论<span class="hidden">&nbsp;<img src="<?php echo $domain; ?>public/common/images/zhixing_bai.gif" width="14" height="14"></span>
-                        <span class="glyphicon glyphicon-ok hidden"></span>
-                        </button>
-                        <button type="button" class="btn btn-info denglu<?php if(!(empty($login) || ($login instanceof \think\Collection && $login->isEmpty()))): ?> hidden<?php endif; ?>" data-toggle="modal" data-target="#myModal">
-                            登录
-                        </button>
-                    </div>
-                </div>
-                <?php endif; if(!(empty($comment_mid) || ($comment_mid instanceof \think\Collection && $comment_mid->isEmpty()))): ?><?php echo $comment_mid; endif; if(!(empty($pinglun) || ($pinglun instanceof \think\Collection && $pinglun->isEmpty()))): ?>
-                <div class="panel-body">
-                    <h4>网友评论</h4>
-                    <?php if(is_array($pinglun) || $pinglun instanceof \think\Collection): $i = 0; $__LIST__ = $pinglun;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?>
-                    <hr>
-                    <div class="row">
-                        <div class="col-md-2">
-                            <img src="<?php if(empty($vo['touxiang']) || ($vo['touxiang'] instanceof \think\Collection && $vo['touxiang']->isEmpty())): ?><?php echo $domain; ?>public/common/images/headicon_128.png<?php else: ?><?php echo $vo['touxiang']; endif; ?>" class="img-circle img-responsive">
-                        </div>
-                        <div class="col-md-10">
-                            <p class="text-primary"><?php echo $vo['nicheng']; ?></p>
-                            <p class="text-muted">评论时间：<?php echo $vo['shijian']; ?></p>
-                            <p><?php echo $vo['neirong']; ?></p>
-                        </div>
-                    </div>
-                    <?php endforeach; endif; else: echo "" ;endif; ?>
-                    <?php echo $pages; ?>
-                </div>
-                <?php endif; endif; if(!(empty($comment_bottom) || ($comment_bottom instanceof \think\Collection && $comment_bottom->isEmpty()))): ?><?php echo $comment_bottom; endif; ?>
-            </div>
+            <?php endforeach; endif; else: echo "" ;endif; ?>
+            <?php echo $pages; if(!(empty($category_bottom) || ($category_bottom instanceof \think\Collection && $category_bottom->isEmpty()))): ?><?php echo $category_bottom; endif; if(!(empty($article_list_bottom) || ($article_list_bottom instanceof \think\Collection && $article_list_bottom->isEmpty()))): ?><?php echo $article_list_bottom; endif; if(!(empty($search_bottom) || ($search_bottom instanceof \think\Collection && $search_bottom->isEmpty()))): ?><?php echo $search_bottom; endif; ?>
         </div>
         <div class="col-md-4">
-            <?php if(!(empty($side_top) || ($side_top instanceof \think\Collection && $side_top->isEmpty()))): ?><?php echo $side_top; endif; if(!(empty($article_side_top) || ($article_side_top instanceof \think\Collection && $article_side_top->isEmpty()))): ?><?php echo $article_side_top; endif; if(!(empty($tuijian) || ($tuijian instanceof \think\Collection && $tuijian->isEmpty()))): ?>
+            <?php if(!(empty($side_top) || ($side_top instanceof \think\Collection && $side_top->isEmpty()))): ?><?php echo $side_top; endif; if(!(empty($category_side_top) || ($category_side_top instanceof \think\Collection && $category_side_top->isEmpty()))): ?><?php echo $category_side_top; endif; if(!(empty($article_list_side_top) || ($article_list_side_top instanceof \think\Collection && $article_list_side_top->isEmpty()))): ?><?php echo $article_list_side_top; endif; if(!(empty($search_side_top) || ($search_side_top instanceof \think\Collection && $search_side_top->isEmpty()))): ?><?php echo $search_side_top; endif; if(!(empty($tuijian) || ($tuijian instanceof \think\Collection && $tuijian->isEmpty()))): ?>
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h3 class="panel-title">推荐</h3>
@@ -181,10 +125,10 @@
                 </a>
                 <?php endforeach; endif; else: echo "" ;endif; ?>
             </div>
-            <?php if(!(empty($tuwen['tuwen3']['neirong']) || ($tuwen['tuwen3']['neirong'] instanceof \think\Collection && $tuwen['tuwen3']['neirong']->isEmpty()))): ?>
+            <?php if(!(empty($tuwen['tuwen2']['neirong']) || ($tuwen['tuwen2']['neirong'] instanceof \think\Collection && $tuwen['tuwen2']['neirong']->isEmpty()))): ?>
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <?php if(is_array($tuwen['tuwen3']['neirong']) || $tuwen['tuwen3']['neirong'] instanceof \think\Collection): $i = 0;$__LIST__ = is_array($tuwen['tuwen3']['neirong']) ? array_slice($tuwen['tuwen3']['neirong'],0,6, true) : $tuwen['tuwen3']['neirong']->slice(0,6, true); if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?>
+                    <?php if(is_array($tuwen['tuwen2']['neirong']) || $tuwen['tuwen2']['neirong'] instanceof \think\Collection): $i = 0;$__LIST__ = is_array($tuwen['tuwen2']['neirong']) ? array_slice($tuwen['tuwen2']['neirong'],0,6, true) : $tuwen['tuwen2']['neirong']->slice(0,6, true); if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?>
                     <div class="col-xs-12 col-md-6">
                         <a href="<?php echo $vo['href']; ?>" class="thumbnail" title="<?php echo $vo['biaoti']; ?>">
                             <img src="<?php echo $vo['suolvetu']; ?>" class="img-responsive" alt="Responsive image">
@@ -193,39 +137,10 @@
                     <?php endforeach; endif; else: echo "" ;endif; ?>
                 </div>
             </div>
-            <?php endif; if(!(empty($article_side_bottom) || ($article_side_bottom instanceof \think\Collection && $article_side_bottom->isEmpty()))): ?><?php echo $article_side_bottom; endif; if(!(empty($side_bottom) || ($side_bottom instanceof \think\Collection && $side_bottom->isEmpty()))): ?><?php echo $side_bottom; endif; ?>
+            <?php endif; if(!(empty($category_side_bottom) || ($category_side_bottom instanceof \think\Collection && $category_side_bottom->isEmpty()))): ?><?php echo $category_side_bottom; endif; if(!(empty($article_list_side_bottom) || ($article_list_side_bottom instanceof \think\Collection && $article_list_side_bottom->isEmpty()))): ?><?php echo $article_list_side_bottom; endif; if(!(empty($search_side_bottom) || ($search_side_bottom instanceof \think\Collection && $search_side_bottom->isEmpty()))): ?><?php echo $search_side_bottom; endif; if(!(empty($side_bottom) || ($side_bottom instanceof \think\Collection && $side_bottom->isEmpty()))): ?><?php echo $side_bottom; endif; ?>
         </div>
     </div>
 </div>
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title" id="myModalLabel">用户登录</h4>
-            </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <label>用户名</label>
-                    <input type="text" class="form-control" name="user" id="user" placeholder="用户名" autofocus>
-                </div>
-                <div class="form-group">
-                    <label>密码</label>
-                    <input type="password" class="form-control" name="pwd" id="pwd" placeholder="密码">
-                </div>
-                <p class="text-danger" id="tishi"></p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-primary" id="lijidenglu">登录<span class="hidden">&nbsp;<img src="<?php echo $domain; ?>public/common/images/zhixing_bai.gif" width="14" height="14"></span></button>
-            </div>
-        </div>
-    </div>
-</div>
-<script type="text/javascript" charset="utf-8" src="<?php echo $domain; ?>public/common/umeditor/umeditor.config.js"></script>
-<script type="text/javascript" charset="utf-8" src="<?php echo $domain; ?>public/common/umeditor/umeditor.min.js"></script>
-<script type="text/javascript" src="<?php echo $domain; ?>public/common/umeditor/lang/zh-cn/zh-cn.js"></script>
-<script src="<?php echo $domain; ?>public/<?php echo $template; ?>/js/article.js"></script>
 <?php if(!(empty($bottom) || ($bottom instanceof \think\Collection && $bottom->isEmpty()))): ?><?php echo $bottom; endif; ?>
 <div class="container">
     <div class="row">
